@@ -9,6 +9,8 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.android.gms.ads.identifier.AdvertisingIdClient
 import kotlinx.coroutines.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,6 +18,8 @@ class MainActivity : AppCompatActivity() {
     private val targetSdk by lazy { findViewById<TextView>(R.id.targetSdk) }
     private val permissionDefined by lazy { findViewById<TextView>(R.id.permissionDefined) }
     private val button by lazy { findViewById<Button>(R.id.button) }
+
+    private val dateText by lazy { findViewById<TextView>(R.id.date) }
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +35,11 @@ class MainActivity : AppCompatActivity() {
                 getInfo()
             }
         }
+
+        dateText.text ="Date: ${SimpleDateFormat(
+            "yyyy-MM-dd'T'HH:mm:ss",
+            Locale.getDefault()
+        ).format(Date())}"
     }
 
     suspend fun getInfo() {
