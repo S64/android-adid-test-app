@@ -1,6 +1,7 @@
 package jp.co.kiganix.android.example.adidtest
 
 import android.annotation.SuppressLint
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -11,6 +12,7 @@ import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
 
+    private val apiLevel by lazy { findViewById<TextView>(R.id.apiLevel) }
     private val targetSdk by lazy { findViewById<TextView>(R.id.targetSdk) }
     private val permissionDefined by lazy { findViewById<TextView>(R.id.permissionDefined) }
     private val button by lazy { findViewById<Button>(R.id.button) }
@@ -20,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        apiLevel.text = "apiLevel: ${Build.VERSION.SDK_INT}"
         targetSdk.text = "targetSdk: ${BuildConfig.TARGET_SDK}"
         permissionDefined.text = "permissionDefined?: ${BuildConfig.PERMISSION_DEFINITION}"
 
@@ -35,6 +38,7 @@ class MainActivity : AppCompatActivity() {
             return@async AdvertisingIdClient.getIsAdIdFakeForDebugLogging(this@MainActivity)
         }
         val info = GlobalScope.async {
+            AdvertisingIdClient.setShouldSkipGmsCoreVersionCheck(false)
             return@async AdvertisingIdClient.getAdvertisingIdInfo(this@MainActivity)
         }
 
